@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promo Mobile Geser & Live Kamera</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background-color: #f5f5f5;
+        padding-bottom: 120px;
+    }
+
+    /* === NAV FOTO (AUTO-SIZE SESUAI GAMBAR) === */
+    .carousel-container {
+        width: 100%;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        display: flex;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        position: relative;
+    }
+
+    .carousel-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carousel-slide {
+        flex: 0 0 100%;
+        scroll-snap-align: start;
+        position: relative;
+    }
+
+    .carousel-slide img {
+        width: 100%;
+        height: auto; /* tinggi otomatis mengikuti rasio gambar */
+        display: block;
+    }
+
+    /* === PROMO SECTION === */
+    .promo-section {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        display: flex;
+    }
+
+    .promo-video {
+        width: 65%;
+        background-color: #000;
+        position: relative;
+    }
+
+    .promo-video video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .promo-text {
+        width: 35%;
+        background-color: #e0e0e0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        line-height: 1.5;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .promo-message {
+        position: absolute;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+        width: 90%;
+    }
+
+    .promo-message.active {
+        opacity: 1;
+    }
+
+    /* === LIVE DAN DESTINATOR === */
+    .live-destinator {
+        display: flex;
+        height: 180px;
+        margin-bottom: 10px;
+    }
+
+    .live-section {
+        width: 45%;
+        background-color: #000;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .live-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: red;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: bold;
+        font-size: 12px;
+        z-index: 10;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+
+    .destinator-section {
+        width: 55%;
+        background-color: #ddd;
+        position: relative;
+    }
+
+    .destinator-section img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* === PROFIL MARKETING === */
+    .marketing-profile {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        padding: 15px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-photo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #ccc;
+        margin-right: 15px;
+        overflow: hidden;
+    }
+
+    .profile-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .profile-position {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .whatsapp-button {
+        background-color: #25D366;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .whatsapp-button img {
+        width: 18px;
+        margin-right: 5px;
+    }
+
+    /* LIVE VIDEO */
+    #liveVideo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background-color: #000;
+    }
+
+    .camera-error {
+        position: absolute;
+        color: white;
+        background: rgba(0,0,0,0.6);
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 14px;
+    }
+</style>
+</head>
+<body>
+
+    <!-- === NAV FOTO OTOMATIS + GESER === -->
+    <div class="carousel-container" id="carousel">
+        <div class="carousel-slide"><img src="1.jpeg" alt="Promo 1"></div>
+        <div class="carousel-slide"><img src="2.jpeg" alt="Promo 2"></div>
+        <div class="carousel-slide"><img src="3.jpeg" alt="Promo 3"></div>
+        <div class="carousel-slide"><img src="4.jpeg" alt="Promo 4"></div>
+    </div>
+
+    <!-- === PROMO VIDEO === -->
+    <div class="promo-section">
+        <div class="promo-video">
+            <video id="promoVideo" autoplay loop muted playsinline>
+                <source src="video1.mp4" type="video/mp4">
+                Browser tidak mendukung video.
+            </video>
+        </div>
+        <div class="promo-text" id="promoText">
+            <div class="promo-message active">AJUKAN SEKARANG<br>*BUNGA 0%<br>*DP RINGAN<br>*HARGA TERBAIK</div>
+            <div class="promo-message">PROGRAM SPESIAL BULAN INI<br>*GRATIS SERVIS<br>*BONUS AKSESORIS</div>
+            <div class="promo-message">DAPATKAN UNIT TERBAIK<br>*STOK TERBATAS<br>*GARANSI RESMI</div>
+        </div>
+    </div>
+
+    <!-- === LIVE DAN DESTINATOR === -->
+    <div class="live-destinator">
+        <div class="live-section">
+            <div class="live-icon">LIVE</div>
+            <video id="liveVideo" autoplay muted playsinline></video>
+            <div id="cameraError" class="camera-error" style="display:none;">
+                Tidak bisa mengakses kamera.<br>Pastikan izin kamera diaktifkan.
+            </div>
+        </div>
+        <div class="destinator-section">
+            <img src="promot.jpeg" alt="Destinator">
+        </div>
+    </div>
+
+    <!-- === PROFIL MARKETING === -->
+    <div class="marketing-profile">
+        <div class="profile-photo">
+            <img src="file.jpg" alt="Marketing Executive">
+        </div>
+        <div class="profile-info">
+            <div class="profile-name">OBER TUMANGGOR S.KOM</div>
+            <div class="profile-position">Marketing Executive</div>
+            <div class="profile-position">PT.DIPO INTERNASIONAL MEDAN</div>
+            <a href="https://wa.me/6282393310575" class="whatsapp-button">
+                <img src="wa.png" alt="">
+                0823-9331-0575
+            </a>
+        </div>
+    </div>
+
+<script>
+    // === SLIDER FOTO ===
+    const carousel = document.getElementById('carousel');
+    let currentSlide = 0;
+    const totalSlides = document.querySelectorAll('.carousel-slide').length;
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        carousel.scrollTo({ left: currentSlide * carousel.clientWidth, behavior: 'smooth' });
+    }
+    let autoSlide = setInterval(nextSlide, 3000);
+    carousel.addEventListener('touchstart', () => clearInterval(autoSlide));
+    carousel.addEventListener('touchend', () => autoSlide = setInterval(nextSlide, 3000));
+
+    // === TEKS PROMO OTOMATIS ===
+    const messages = document.querySelectorAll('.promo-message');
+    let msgIndex = 0;
+    setInterval(() => {
+        messages.forEach(m => m.classList.remove('active'));
+        msgIndex = (msgIndex + 1) % messages.length;
+        messages[msgIndex].classList.add('active');
+    }, 4000);
+
+    // === LIVE KAMERA ===
+    const liveVideo = document.getElementById('liveVideo');
+    const cameraError = document.getElementById('cameraError');
+
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+            liveVideo.srcObject = stream;
+            cameraError.style.display = "none";
+        } catch (error) {
+            liveVideo.style.display = "none";
+            cameraError.style.display = "block";
+        }
+    }
+
+    window.addEventListener('load', startCamera);
+</script>
+</body>
+</html>
