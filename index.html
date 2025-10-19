@@ -1,269 +1,180 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Promo Mobile Geser & Live Kamera</title>
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
 
-    /* === LATAR GALAXY === */
     body {
         background: radial-gradient(circle at bottom, #000010 0%, #000015 30%, #000020 70%, #000010 100%);
         overflow-x: hidden;
         color: white;
-        position: relative;
         min-height: 100vh;
-        padding-bottom: 120px;
+        position: relative;
+        padding-bottom: 140px;
     }
 
     .stars {
-        width: 100%;
-        height: 100%;
+        position: fixed; top:0; left:0; width:100%; height:100%;
         background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
-        position: fixed;
-        top: 0;
-        left: 0;
-        animation: moveStars 100s linear infinite;
-        z-index: -3;
+        animation: moveStars 100s linear infinite; z-index:-3;
     }
+    @keyframes moveStars { from{background-position:0 0;} to{background-position:10000px 10000px;} }
 
-    @keyframes moveStars {
-        from { background-position: 0 0; }
-        to { background-position: 10000px 10000px; }
-    }
+    .meteor { position:fixed; top:-50px; width:2px; height:80px; background:linear-gradient(45deg,white,rgba(255,255,255,0));
+        opacity:0.6; transform:rotate(45deg); animation:fall 5s linear infinite; z-index:-2; }
+    @keyframes fall { 0%{transform:translate(0,0) rotate(45deg);opacity:1;} 100%{transform:translate(100vw,100vh) rotate(45deg);opacity:0;} }
 
-    .meteor {
-        position: fixed;
-        top: -50px;
-        width: 2px;
-        height: 80px;
-        background: linear-gradient(45deg, white, rgba(255,255,255,0));
-        opacity: 0.6;
-        transform: rotate(45deg);
-        animation: fall 5s linear infinite;
-        z-index: -2;
-    }
+    .carousel-container { width:100%; overflow-x:scroll; scroll-snap-type:x mandatory; display:flex; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+    .carousel-container::-webkit-scrollbar { display:none; }
+    .carousel-slide { flex:0 0 100%; scroll-snap-align:start; }
+    .carousel-slide img { width:100%; border-radius:10px; }
 
-    @keyframes fall {
-        0% { transform: translate(0, 0) rotate(45deg); opacity: 1; }
-        100% { transform: translate(100vw, 100vh) rotate(45deg); opacity: 0; }
-    }
+    .promo-section { display:flex; height:180px; overflow:hidden; margin-bottom:10px; }
+    .promo-video { width:65%; }
+    .promo-video video { width:100%; height:100%; border-radius:10px; object-fit:cover; }
 
-    /* === SLIDER FOTO === */
-    .carousel-container {
-        width: 100%;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        display: flex;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        position: relative;
-    }
-    .carousel-container::-webkit-scrollbar { display: none; }
-    .carousel-slide { flex: 0 0 100%; scroll-snap-align: start; }
-    .carousel-slide img { width: 100%; border-radius: 10px; }
-
-    /* === PROMO VIDEO === */
-    .promo-section {
-        display: flex;
-        height: 180px;
-        overflow: hidden;
-        margin-bottom: 10px;
-    }
-    .promo-video { width: 65%; }
-    .promo-video video { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; }
-
-    /* === TEKS PROMO 3D BERCAHAYA === */
-    .promo-text {
-        width: 35%;
-        background-color: rgba(0,0,0,0.6);
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        font-weight: bold;
-        text-align: center;
-        padding: 10px;
-        border-radius: 10px;
-        position: relative;
-        perspective: 500px;
-        overflow: hidden;
-    }
-
-    .promo-message {
-        position: absolute;
-        opacity: 0;
-        transition: opacity 0.8s ease-in-out;
-        width: 90%;
-        text-shadow:
-            0 0 5px #ff2600,
-            0 0 10px #d61515,
-            0 0 20px #ce6363,
-            0 0 40px #d49e9e;
-        transform: rotateY(15deg);
-        animation: pulseGlow 3s infinite alternate;
-    }
-
-    .promo-message.active {
-        opacity: 1;
-    }
-
+    .promo-text { width:35%; background-color:rgba(0,0,0,0.6); display:flex; justify-content:center; align-items:center; font-size:16px; font-weight:bold; text-align:center; padding:10px; border-radius:10px; position:relative; perspective:500px; overflow:hidden; }
+    .promo-message { position:absolute; opacity:0; transition:opacity .8s ease-in-out; width:90%; text-shadow:0 0 5px #ff2600,0 0 10px #d61515,0 0 20px #ce6363,0 0 40px #d49e9e; transform:rotateY(15deg); animation:pulseGlow 3s infinite alternate; }
+    .promo-message.active { opacity:1; }
     @keyframes pulseGlow {
-        0% {
-            text-shadow:
-                0 0 10px #00eaff,
-                0 0 20px #00baff,
-                0 0 40px #0077ff,
-                0 0 60px #0044ff;
-            transform: rotateY(10deg) scale(1);
-        }
-        100% {
-            text-shadow:
-                0 0 20px #00ffff,
-                0 0 40px #00ffcc,
-                0 0 80px #00ff88,
-                0 0 120px #00ff44;
-            transform: rotateY(-10deg) scale(1.05);
-        }
+        0% { text-shadow:0 0 10px #00eaff,0 0 20px #00baff,0 0 40px #0077ff,0 0 60px #0044ff; transform:rotateY(10deg) scale(1); }
+        100% { text-shadow:0 0 20px #00ffff,0 0 40px #00ffcc,0 0 80px #00ff88,0 0 120px #00ff44; transform:rotateY(-10deg) scale(1.05); }
     }
 
-    /* === LIVE DAN DESTINATOR === */
-    .live-destinator {
-        display: flex;
-        height: 180px;
-        margin-bottom: 10px;
-        gap: 5px;
-    }
-    .live-section {
-        width: 45%;
-        background-color: #000;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    .live-icon {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 40px;
-        height: 40px;
-        background-color: red;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-weight: bold;
-        font-size: 12px;
-        z-index: 10;
-        animation: blink 1s infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+    .live-destinator { display:flex; height:220px; margin-bottom:10px; gap:5px; }
+    .live-section { width:45%; background:#000; position:relative; display:flex; justify-content:center; align-items:center; border-radius:10px; overflow:hidden; padding:6px; }
+    .live-icon { position:absolute; top:10px; right:10px; width:40px; height:40px; background:red; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-weight:bold; font-size:12px; z-index:10; animation:blink 1s infinite; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
 
-    .destinator-section {
-        width: 55%;
-        background-color: rgba(255,255,255,0.1);
-        border-radius: 10px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    /* ICON GANTI KAMERA */
+    .switch-icon {
+        position:absolute;
+        bottom:10px;
+        right:10px;
+        z-index:20;
+        width:42px;
+        height:42px;
+        border-radius:50%;
+        background:rgba(255,255,255,0.15);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        cursor:pointer;
+        backdrop-filter:blur(4px);
+        transition: all 0.25s ease;
     }
-    .destinator-section img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
+    .switch-icon:hover {
+        background:rgba(255,255,255,0.3);
+        transform:scale(1.05);
+        box-shadow:0 0 10px rgba(255,255,255,0.5);
+    }
+    .switch-icon:active {
+        transform:rotate(180deg) scale(0.95);
+        box-shadow:0 0 15px rgba(255,255,255,0.8);
     }
 
-    /* === PROFIL MARKETING (HOLOGRAM) === */
+    .switch-icon img {
+        width:26px;
+        opacity:0.9;
+        filter:drop-shadow(0 0 4px rgba(255,255,255,0.7));
+    }
+
+    .destinator-section { width:55%; background-color:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .destinator-section img { width:100%; height:100%; object-fit:contain; }
+
+    /* TEKS BERJALAN */
+    .running-text {
+        width:100%;
+        overflow:hidden;
+        white-space:nowrap;
+        border-top:1px solid rgba(255,255,255,0.2);
+        border-bottom:1px solid rgba(255,255,255,0.2);
+        margin-top:8px;
+        padding:8px 0;
+        background:rgba(0,0,0,0.4);
+    }
+    .running-text span {
+        display:inline-block;
+        padding-left:100%;
+        font-family: Arial Black, Arial, sans-serif;
+        font-weight:bold;
+        font-size:20px;
+        text-transform:uppercase;
+        animation:scrollLeft 18s linear infinite, colorChange 6s linear infinite, blinkGlow 1.2s ease-in-out infinite;
+    }
+    @keyframes scrollLeft { 0% { transform:translateX(0); } 100% { transform:translateX(-100%); } }
+    @keyframes colorChange {
+        0%{color:#ffffff;}14%{color:#ff0000;}28%{color:#ffff00;}42%{color:#00ff00;}
+        57%{color:#00ffff;}71%{color:#0000ff;}85%{color:#ff00ff;}100%{color:#ffffff;}
+    }
+    @keyframes blinkGlow {
+        0%,100% { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor; opacity:1; }
+        50% { text-shadow: 0 0 5px currentColor; opacity:0.8; }
+    }
+
     .marketing-profile {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        z-index: 100;
-        background: linear-gradient(270deg, #ff00c8, #00fff0, #ffea00, #ff00c8);
-        background-size: 600% 600%;
-        animation: hologramMove 6s ease infinite;
-        color: #000;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.4);
+        position:fixed; bottom:0; left:0; width:100%; padding:15px; display:flex; align-items:center;
+        z-index:100; background:linear-gradient(270deg,#ff00c8,#00fff0,#ffea00,#ff00c8);
+        background-size:600% 600%; animation:hologramMove 6s ease infinite; color:#000;
+        box-shadow:0 -2px 10px rgba(0,0,0,0.4);
     }
     @keyframes hologramMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+        0%{background-position:0% 50%;}
+        50%{background-position:100% 50%;}
+        100%{background-position:0% 50%;}
     }
-    .profile-photo {
-        width: 60px; height: 60px;
+    .profile-photo { width:60px; height:60px; border-radius:50%; overflow:hidden; margin-right:15px; border:3px solid white; }
+    .profile-photo img { width:100%; height:100%; object-fit:cover; }
+    .profile-info { flex:1; }
+    .profile-name { font-weight:bold; margin-bottom:5px; }
+    .profile-position { font-size:14px; margin-bottom:4px; }
+    .whatsapp-button { background:#25D366; color:white; padding:8px 15px; border-radius:25px; text-decoration:none; font-size:14px; display:inline-flex; align-items:center; gap:5px; position:relative; }
+    .whatsapp-button img { width:18px; }
+    .hand-icon { position:absolute; right:-25px; top:50%; transform:translateY(-50%) rotate(20deg); font-size:20px; animation:point 1s infinite alternate; }
+    @keyframes point { 0%{ transform:translateY(-50%) translateX(0) rotate(20deg); } 100%{ transform:translateY(-50%) translateX(-8px) rotate(20deg); } }
+
+    #liveVideo { width:100%; height:100%; object-fit:cover; background:#000; border-radius:8px; }
+    .camera-error { position:absolute; color:white; background:rgba(0,0,0,0.6); padding:10px; border-radius:5px; text-align:center; font-size:14px; z-index:15; }
+
+    /* Tombol Musik */
+    #musicControl {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 200;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(6px);
         border-radius: 50%;
-        overflow: hidden;
-        margin-right: 15px;
-        border: 3px solid white;
-    }
-    .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-info { flex: 1; }
-    .profile-name { font-weight: bold; margin-bottom: 5px; }
-    .profile-position { font-size: 14px; margin-bottom: 4px; }
-    .whatsapp-button {
-        background-color: #25D366;
-        color: white;
-        padding: 8px 15px;
-        border-radius: 25px;
-        text-decoration: none;
-        font-size: 14px;
-        display: inline-flex;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
         align-items: center;
-        gap: 5px;
-        position: relative;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        transition: all 0.3s ease;
     }
-    .whatsapp-button img { width: 18px; }
-    .hand-icon {
-        position: absolute;
-        right: -25px;
-        top: 50%;
-        transform: translateY(-50%) rotate(20deg);
-        font-size: 20px;
-        animation: point 1s infinite alternate;
-    }
-    @keyframes point {
-        0% { transform: translateY(-50%) translateX(0) rotate(20deg); }
-        100% { transform: translateY(-50%) translateX(-8px) rotate(20deg); }
+    #musicControl:hover {
+        background: rgba(255,255,255,0.4);
+        transform: scale(1.1);
     }
 
-    /* === LIVE VIDEO === */
-    #liveVideo { width: 100%; height: 100%; object-fit: cover; background-color: #000; }
-    .camera-error {
-        position: absolute;
-        color: white;
-        background: rgba(0,0,0,0.6);
-        padding: 10px;
-        border-radius: 5px;
-        text-align: center;
-        font-size: 14px;
+    @media (max-width:480px){
+        .running-text span { font-size:16px; }
     }
 </style>
 </head>
 <body>
 
 <div class="stars"></div>
-<div class="meteor" style="left:10%; animation-delay: 0s;"></div>
-<div class="meteor" style="left:40%; animation-delay: 2s;"></div>
-<div class="meteor" style="left:70%; animation-delay: 4s;"></div>
+<div class="meteor" style="left:10%;animation-delay:0s;"></div>
+<div class="meteor" style="left:40%;animation-delay:2s;"></div>
+<div class="meteor" style="left:70%;animation-delay:4s;"></div>
 
-<!-- === SLIDER FOTO === -->
+<!-- SLIDER -->
 <div class="carousel-container" id="carousel">
     <div class="carousel-slide"><img src="1.jpeg" alt="Promo 1"></div>
     <div class="carousel-slide"><img src="2.jpeg" alt="Promo 2"></div>
@@ -271,7 +182,7 @@
     <div class="carousel-slide"><img src="4.jpeg" alt="Promo 4"></div>
 </div>
 
-<!-- === PROMO VIDEO + TEKS 3D === -->
+<!-- PROMO VIDEO -->
 <div class="promo-section">
     <div class="promo-video">
         <video id="promoVideo" autoplay loop muted playsinline>
@@ -285,11 +196,14 @@
     </div>
 </div>
 
-<!-- === LIVE DAN DESTINATOR === -->
+<!-- LIVE & DESTINATOR -->
 <div class="live-destinator">
     <div class="live-section">
         <div class="live-icon">LIVE</div>
         <video id="liveVideo" autoplay muted playsinline></video>
+        <div class="switch-icon" id="switchCamera">
+            <img src="putr.png" alt="Ganti Kamera">
+        </div>
         <div id="cameraError" class="camera-error" style="display:none;">
             Tidak bisa mengakses kamera.<br>Pastikan izin kamera diaktifkan.
         </div>
@@ -299,11 +213,14 @@
     </div>
 </div>
 
-<!-- === PROFIL MARKETING === -->
+<!-- TEKS BERJALAN -->
+<div class="running-text">
+    <span>🔥 PROMO MITSUBISHI TERBARU! DAPATKAN DP RINGAN • BUNGA 0% • BONUS AKSESORIS • STOK TERBATAS • HUBUNGI OBER TUMANGGOR: 0823-9331-0575 🔥</span>
+</div>
+
+<!-- PROFIL -->
 <div class="marketing-profile">
-    <div class="profile-photo">
-        <img src="file.jpg" alt="Marketing Executive">
-    </div>
+    <div class="profile-photo"><img src="file.jpg" alt="Marketing Executive"></div>
     <div class="profile-info">
         <div class="profile-name">OBER TUMANGGOR S.KOM</div>
         <div class="profile-position">Marketing Executive</div>
@@ -315,12 +232,16 @@
     </div>
 </div>
 
+<!-- === MUSIK LATAR === -->
+<audio id="bgMusic" src="mars ober.mp3" autoplay loop></audio>
+<div id="musicControl">🔊</div>
+
 <script>
-    // === SLIDER FOTO ===
+    // SLIDER FOTO
     const carousel = document.getElementById('carousel');
     let currentSlide = 0;
     const totalSlides = document.querySelectorAll('.carousel-slide').length;
-    function nextSlide() {
+    function nextSlide(){
         currentSlide = (currentSlide + 1) % totalSlides;
         carousel.scrollTo({ left: currentSlide * carousel.clientWidth, behavior: 'smooth' });
     }
@@ -328,7 +249,7 @@
     carousel.addEventListener('touchstart', () => clearInterval(autoSlide));
     carousel.addEventListener('touchend', () => autoSlide = setInterval(nextSlide, 3000));
 
-    // === TEKS PROMO OTOMATIS ===
+    // TEKS PROMO
     const messages = document.querySelectorAll('.promo-message');
     let msgIndex = 0;
     setInterval(() => {
@@ -337,21 +258,53 @@
         messages[msgIndex].classList.add('active');
     }, 4000);
 
-    // === LIVE KAMERA ===
+    // LIVE KAMERA SWITCH
     const liveVideo = document.getElementById('liveVideo');
     const cameraError = document.getElementById('cameraError');
-    async function startCamera() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+    const switchBtn = document.getElementById('switchCamera');
+    let currentFacing = 'user';
+    let currentStream = null;
+
+    async function startCamera(){
+        try{
+            if(currentStream){ currentStream.getTracks().forEach(t=>t.stop()); }
+            const stream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode: currentFacing }, audio:false });
             liveVideo.srcObject = stream;
+            currentStream = stream;
             cameraError.style.display = "none";
-        } catch (error) {
+        }catch(e){
             liveVideo.style.display = "none";
             cameraError.style.display = "block";
         }
     }
+    switchBtn.addEventListener('click', ()=>{
+        currentFacing = (currentFacing === 'user') ? 'environment' : 'user';
+        startCamera();
+    });
     window.addEventListener('load', startCamera);
-</script>
 
+    // MUSIK PLAY/PAUSE
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicControl');
+    let isPlaying = true;
+
+    musicBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            bgMusic.pause();
+            musicBtn.textContent = '🔈';
+        } else {
+            bgMusic.play();
+            musicBtn.textContent = '🔊';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // Autoplay workaround
+    window.addEventListener('click', () => {
+        if (bgMusic.paused) {
+            bgMusic.play();
+        }
+    }, { once: true });
+</script>
 </body>
 </html>
