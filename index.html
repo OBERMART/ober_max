@@ -40,8 +40,8 @@
     .promo-message { position:absolute; opacity:0; transition:opacity .8s ease-in-out; width:90%; text-shadow:0 0 5px #ff2600,0 0 10px #d61515,0 0 20px #ce6363,0 0 40px #d49e9e; transform:rotateY(15deg); animation:pulseGlow 3s infinite alternate; }
     .promo-message.active { opacity:1; }
     @keyframes pulseGlow {
-        0% { text-shadow:0 0 10px #00eaff,0 0 20px #00baff,0 0 40px #0077ff,0 0 60px #0044ff; transform:rotateY(10deg) scale(1); }
-        100% { text-shadow:0 0 20px #00ffff,0 0 40px #00ffcc,0 0 80px #00ff88,0 0 120px #00ff44; transform:rotateY(-10deg) scale(1.05); }
+        0% { text-shadow:0 0 10px #1100ff,0 0 20px #21f321,0 0 40px #f10b0b,0 0 60px #0044ff; transform:rotateY(10deg) scale(1); }
+        100% { text-shadow:0 0 20px #1b1b19,0 0 40px #3ce209,0 0 80px #e71f72,0 0 120px #00ff44; transform:rotateY(-10deg) scale(1.05); }
     }
 
     .live-destinator { display:flex; height:220px; margin-bottom:10px; gap:5px; }
@@ -49,7 +49,6 @@
     .live-icon { position:absolute; top:10px; right:10px; width:40px; height:40px; background:red; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-weight:bold; font-size:12px; z-index:10; animation:blink 1s infinite; }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
 
-    /* ICON GANTI KAMERA */
     .switch-icon {
         position:absolute;
         bottom:10px;
@@ -71,38 +70,26 @@
         transform:scale(1.05);
         box-shadow:0 0 10px rgba(255,255,255,0.5);
     }
-    .switch-icon:active {
-        transform:rotate(180deg) scale(0.95);
-        box-shadow:0 0 15px rgba(255,255,255,0.8);
-    }
-
     .switch-icon img {
-        width:26px;
-        opacity:0.9;
-        filter:drop-shadow(0 0 4px rgba(255,255,255,0.7));
+        width:28px;
+        opacity:0.95;
+        filter:drop-shadow(0 0 4px rgba(255,255,255,0.8));
+        transition: opacity 0.3s ease;
     }
 
     .destinator-section { width:55%; background-color:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
     .destinator-section img { width:100%; height:100%; object-fit:contain; }
 
-    /* TEKS BERJALAN */
     .running-text {
-        width:100%;
-        overflow:hidden;
-        white-space:nowrap;
+        width:100%; overflow:hidden; white-space:nowrap;
         border-top:1px solid rgba(255,255,255,0.2);
         border-bottom:1px solid rgba(255,255,255,0.2);
-        margin-top:8px;
-        padding:8px 0;
-        background:rgba(0,0,0,0.4);
+        margin-top:8px; padding:8px 0; background:rgba(0,0,0,0.4);
     }
     .running-text span {
-        display:inline-block;
-        padding-left:100%;
+        display:inline-block; padding-left:100%;
         font-family: Arial Black, Arial, sans-serif;
-        font-weight:bold;
-        font-size:20px;
-        text-transform:uppercase;
+        font-weight:bold; font-size:20px; text-transform:uppercase;
         animation:scrollLeft 18s linear infinite, colorChange 6s linear infinite, blinkGlow 1.2s ease-in-out infinite;
     }
     @keyframes scrollLeft { 0% { transform:translateX(0); } 100% { transform:translateX(-100%); } }
@@ -139,32 +126,17 @@
     #liveVideo { width:100%; height:100%; object-fit:cover; background:#000; border-radius:8px; }
     .camera-error { position:absolute; color:white; background:rgba(0,0,0,0.6); padding:10px; border-radius:5px; text-align:center; font-size:14px; z-index:15; }
 
-    /* Tombol Musik */
     #musicControl {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 200;
-        background: rgba(255,255,255,0.2);
-        backdrop-filter: blur(6px);
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        position: fixed; top: 15px; left: 15px; z-index: 200;
+        background: rgba(255,255,255,0.2); backdrop-filter: blur(6px);
+        border-radius: 50%; width: 50px; height: 50px;
+        display: flex; justify-content: center; align-items: center;
+        cursor: pointer; box-shadow: 0 0 10px rgba(255,255,255,0.5);
         transition: all 0.3s ease;
     }
-    #musicControl:hover {
-        background: rgba(255,255,255,0.4);
-        transform: scale(1.1);
-    }
+    #musicControl:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
 
-    @media (max-width:480px){
-        .running-text span { font-size:16px; }
-    }
+    @media (max-width:480px){ .running-text span { font-size:16px; } }
 </style>
 </head>
 <body>
@@ -174,7 +146,6 @@
 <div class="meteor" style="left:40%;animation-delay:2s;"></div>
 <div class="meteor" style="left:70%;animation-delay:4s;"></div>
 
-<!-- SLIDER -->
 <div class="carousel-container" id="carousel">
     <div class="carousel-slide"><img src="1.jpeg" alt="Promo 1"></div>
     <div class="carousel-slide"><img src="2.jpeg" alt="Promo 2"></div>
@@ -182,7 +153,6 @@
     <div class="carousel-slide"><img src="4.jpeg" alt="Promo 4"></div>
 </div>
 
-<!-- PROMO VIDEO -->
 <div class="promo-section">
     <div class="promo-video">
         <video id="promoVideo" autoplay loop muted playsinline>
@@ -196,13 +166,12 @@
     </div>
 </div>
 
-<!-- LIVE & DESTINATOR -->
 <div class="live-destinator">
     <div class="live-section">
         <div class="live-icon">LIVE</div>
         <video id="liveVideo" autoplay muted playsinline></video>
         <div class="switch-icon" id="switchCamera">
-            <img src="putr.png" alt="Ganti Kamera">
+            <img id="cameraIcon" src="putr.png" alt="Ganti Kamera">
         </div>
         <div id="cameraError" class="camera-error" style="display:none;">
             Tidak bisa mengakses kamera.<br>Pastikan izin kamera diaktifkan.
@@ -213,12 +182,10 @@
     </div>
 </div>
 
-<!-- TEKS BERJALAN -->
 <div class="running-text">
     <span>🔥 PROMO MITSUBISHI TERBARU! DAPATKAN DP RINGAN • BUNGA 0% • BONUS AKSESORIS • STOK TERBATAS • HUBUNGI OBER TUMANGGOR: 0823-9331-0575 🔥</span>
 </div>
 
-<!-- PROFIL -->
 <div class="marketing-profile">
     <div class="profile-photo"><img src="file.jpg" alt="Marketing Executive"></div>
     <div class="profile-info">
@@ -232,7 +199,6 @@
     </div>
 </div>
 
-<!-- === MUSIK LATAR === -->
 <audio id="bgMusic" src="mars ober.mp3" autoplay loop></audio>
 <div id="musicControl">🔊</div>
 
@@ -241,10 +207,8 @@
     const carousel = document.getElementById('carousel');
     let currentSlide = 0;
     const totalSlides = document.querySelectorAll('.carousel-slide').length;
-    function nextSlide(){
-        currentSlide = (currentSlide + 1) % totalSlides;
-        carousel.scrollTo({ left: currentSlide * carousel.clientWidth, behavior: 'smooth' });
-    }
+    function nextSlide(){ currentSlide = (currentSlide + 1) % totalSlides;
+        carousel.scrollTo({ left: currentSlide * carousel.clientWidth, behavior: 'smooth' }); }
     let autoSlide = setInterval(nextSlide, 3000);
     carousel.addEventListener('touchstart', () => clearInterval(autoSlide));
     carousel.addEventListener('touchend', () => autoSlide = setInterval(nextSlide, 3000));
@@ -258,30 +222,47 @@
         messages[msgIndex].classList.add('active');
     }, 4000);
 
-    // LIVE KAMERA SWITCH
+    // LIVE KAMERA (Depan - Belakang - Off)
     const liveVideo = document.getElementById('liveVideo');
     const cameraError = document.getElementById('cameraError');
     const switchBtn = document.getElementById('switchCamera');
-    let currentFacing = 'user';
+    const cameraIcon = document.getElementById('cameraIcon');
+    let cameraMode = 0; // 0=depan, 1=belakang, 2=off
     let currentStream = null;
 
-    async function startCamera(){
-        try{
-            if(currentStream){ currentStream.getTracks().forEach(t=>t.stop()); }
-            const stream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode: currentFacing }, audio:false });
+    async function startCamera(facingMode) {
+        try {
+            if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode }, audio: false });
             liveVideo.srcObject = stream;
             currentStream = stream;
+            liveVideo.style.display = "block";
             cameraError.style.display = "none";
-        }catch(e){
-            liveVideo.style.display = "none";
+            cameraIcon.src = "putr.png";
+        } catch (e) {
             cameraError.style.display = "block";
+            liveVideo.style.display = "none";
         }
     }
-    switchBtn.addEventListener('click', ()=>{
-        currentFacing = (currentFacing === 'user') ? 'environment' : 'user';
-        startCamera();
+
+    function stopCamera() {
+        if (currentStream) {
+            currentStream.getTracks().forEach(track => track.stop());
+            currentStream = null;
+        }
+        liveVideo.srcObject = null;
+        liveVideo.style.display = "none";
+        cameraIcon.src = "kamera off.png";
+    }
+
+    switchBtn.addEventListener('click', () => {
+        cameraMode = (cameraMode + 1) % 3;
+        if (cameraMode === 0) startCamera('user');           // depan
+        else if (cameraMode === 1) startCamera('environment'); // belakang
+        else stopCamera();                                    // off
     });
-    window.addEventListener('load', startCamera);
+
+    window.addEventListener('load', () => startCamera('user'));
 
     // MUSIK PLAY/PAUSE
     const bgMusic = document.getElementById('bgMusic');
@@ -289,21 +270,13 @@
     let isPlaying = true;
 
     musicBtn.addEventListener('click', () => {
-        if (isPlaying) {
-            bgMusic.pause();
-            musicBtn.textContent = '🔈';
-        } else {
-            bgMusic.play();
-            musicBtn.textContent = '🔊';
-        }
+        if (isPlaying) { bgMusic.pause(); musicBtn.textContent = '🔈'; }
+        else { bgMusic.play(); musicBtn.textContent = '🔊'; }
         isPlaying = !isPlaying;
     });
 
-    // Autoplay workaround
     window.addEventListener('click', () => {
-        if (bgMusic.paused) {
-            bgMusic.play();
-        }
+        if (bgMusic.paused) bgMusic.play();
     }, { once: true });
 </script>
 </body>
